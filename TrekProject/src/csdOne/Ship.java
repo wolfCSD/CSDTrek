@@ -17,6 +17,8 @@ public class Ship {
 		subsystems = new ArrayList<Subsystem>();
 		shields = new Shields();
 		subsystems.add(shields);
+		warpEngines = new WarpEngines();
+		subsystems.add(warpEngines);
 	}
 	
 	public Ship()
@@ -72,6 +74,7 @@ public class Ship {
 	
 	private List<Subsystem> subsystems;
 	private Random randomGenerator;
+	private WarpEngines warpEngines;
 
 	public void setShipEnergyForTest(int newEnergy) {
 		
@@ -91,6 +94,24 @@ public class Ship {
 		shipEnergyLevel += transferShieldToShipAmount;
 		shields.reduceShields(transferShieldToShipAmount);
 		
+	}
+
+	public Subsystem[] damageReport() {
+		
+		List<Subsystem> damagedSystems = new ArrayList<Subsystem>();
+		for(Subsystem system : subsystems)
+		{
+			if(system.isDamaged())
+			{
+				damagedSystems.add(system);
+			}
+		}
+		
+		return damagedSystems.toArray(new Subsystem[0]);
+	}
+
+	public WarpEngines getWarpEngines() {
+		return warpEngines;
 	}
 	
 	

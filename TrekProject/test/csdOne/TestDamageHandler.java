@@ -1,6 +1,10 @@
 package csdOne;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.util.Random;
 
@@ -11,15 +15,18 @@ public class TestDamageHandler {
 
 	DamageHandler dh;
 	Ship ship;
+	Random random;
 	
 	@Before
 	public void initialize()
 	{
 		dh = new DamageHandler();
 		
-		FakeRandom random = new FakeRandom();
+		random = mock(Random.class);
 		ship = new Ship(random);
 	}
+	
+
 	
 	@Test
 	public void testDamageShieldIfRaisedAndSufficient() {
@@ -73,6 +80,36 @@ public class TestDamageHandler {
 		dh.takeHit(ship, 10);
 		
 		assertEquals(numCurrentDamaged + 1, ship.getNumDamagedSystems());
+	}
+	
+	@Test
+	public void testFirstSubsystemGetsHit()
+	{
+		when(random.nextInt(anyInt())).thenReturn(0);
+		dh.takeHit(ship, 5);
+		
+		assertSame(ship.getShields(), ship.damageReport()[0]);
+	}
+	
+	@Test
+	public void testLastSubsystemGetsHit()
+	{
+		when(random.nextInt(anyInt())).thenReturn(1);
+		
+		dh.takeHit(ship, 5);
+		
+		assertSame(ship.getWarpEngines(), ship.damageReport()[0]);
+	}
+	
+	@Test
+	public void testDamageReport()
+	{
+		ship.getWarpEngines().setDamaged(true);
+		ship.getShields().setDamaged(true);
+		
+		Subsystem[] damagedSystems = ship.damageReport();
+		
+		assertEquals(2, damagedSystems.length);
 	}
 	
 	@Test
