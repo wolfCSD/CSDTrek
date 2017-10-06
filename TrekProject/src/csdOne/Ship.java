@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-
-
-
 public class Ship {
 	
 	private Shields shields;
@@ -56,7 +53,6 @@ public class Ship {
 				numDamaged ++;
 			}
 		}
-		
 		return numDamaged;
 	}
 
@@ -64,18 +60,10 @@ public class Ship {
 		int systemToDamage;
 		
 		int numberOfSubsystems = subsystems.size();
-		if(numberOfSubsystems == 1 )
-		{
-			systemToDamage = 0;
-		}
-		else
-		{
-			systemToDamage = chooseSubsystemIndex(numberOfSubsystems);
-		}
-		
+		systemToDamage = chooseSubsystemIndex(numberOfSubsystems);
+				
 		Subsystem system = subsystems.get(systemToDamage);
 		system.setDamaged(true);
-		
 	}
 
 	private int chooseSubsystemIndex(int numberOfSubsystems) {

@@ -87,6 +87,7 @@ public class TestDamageHandler {
 		assertEquals(numCurrentDamaged + 1, ship.getNumDamagedSystems());
 	}
 	
+	@SuppressWarnings("serial")
 	private class FakeRandom extends Random
 	{
 		@Override

@@ -10,7 +10,7 @@ public class ShieldsTest
 	Shields s1;
 
 	@Before
-	public void ShieldsTest()
+	public void initialize()
 	{
 	     s1 = new Shields();
 	}
