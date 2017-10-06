@@ -1,7 +1,7 @@
 package csdOne;
 
 public abstract class Subsystem {
-	private boolean damaged;
+	private boolean damaged = false;
 
 	public boolean isDamaged() {
 		return damaged;

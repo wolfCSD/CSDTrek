@@ -16,67 +16,89 @@ public class ShieldsTest
 	}
 	
 	@Test
-	public void testUpDown() 
+	public void testShieldEnergyNotNegative() 
 	{
-		if ( s1.isShieldUp() && !s1.isShieldUp() )
-			System.out.println("Developer error in setting shield Up or Down");
-		else
-			System.out.println("Proper values were set for shield Level Up or Down");	
+		//Given
+		s1.setShieldUp();
+		s1.setShieldEnergyLevel(20);
+		//When
+	    s1.reduceShields(30);
+	    //Then
+	    assertEquals(0, s1.getShieldEnergyLevel());
+	}
+	
+	
+	@Test
+	public void testShieldEnergyIncrementsfromZeroNotNegative() 
+	{
+		//Given
+		s1.setShieldUp();
+		s1.setShieldEnergyLevel(20);
+		//When
+	    s1.reduceShields(30);
+	    s1.addShields(15);
+	    //Then
+	    assertEquals(15, s1.getShieldEnergyLevel());
+	}
+	
+	@Test
+	public void testShieldIsDownByDefault() 
+	{
+		//Given
+		
+		//When
+	    
+	    //Then
+	    assertFalse(s1.isShieldUp());
+	}
+	
+	@Test
+	public void testShieldUp() 
+	{
+		//Given
+		s1.setShieldDown();
+		//When
+	    s1.setShieldUp();
+	    //Then
+	    assertTrue(s1.isShieldUp());
+	}
+	
+	@Test
+	public void testShieldDown() 
+	{
+		//Given
+	    s1.setShieldUp();
+	    //When
+		s1.setShieldDown();
+		//Then
+	    assertFalse(s1.isShieldUp());
+	}
+	
+	@Test
+	public void testMinShieldEnergy() 
+	{
+//Given
+		s1.setShieldEnergyLevel(20);
+//When	    
+		s1.reduceShields(30);
+//Then	   
+	    assertEquals(0, s1.getShieldEnergyLevel());
+	}
+	
+	@Test
+	public void testMaxShieldEnergy() 
+	{
+		//Given
+		
+		s1.setShieldEnergyLevel(9000);
+		
+		//When
+		s1.addShields(1500);
+		
+		//Then
+	    assertEquals(10000, s1.getShieldEnergyLevel());	
 	}
 
-	@Test
-	public void testShieldLevel() 
-	{
-//		assertBetween(s1.getShieldEnergyLevel(), 0, 10000);
-		
-		if ( s1.getShieldLevel() < 0 || s1.getShieldLevel() >10000 )
-			System.out.println("Developer error in setting shield Level");
-		else
-			System.out.println("shield Level was set properly");
-	}
-	
-	
-	
-	@Test
-	public void testShipToShield() 
-	{
-		int iBefore = s1.getShipEnergyLevel();
-		int iTransferAmount = 500;
-		
-		try
-		{
-		    s1.shipToShieldTransfer(iTransferAmount);
-		}
-		catch(Exception e)
-		{
-		    System.out.println(e.toString());
-		}
-		
-		int iAfter = s1.getShipEnergyLevel();
-		
-		assertEquals(iBefore-iTransferAmount, iAfter);
-	}
-	
-	
-	@Test
-	public void testShieldToShip() 
-	{
-		int iBefore = s1.getShieldEnergyLevel();
-		int iTransferAmount = 999;
-		
-		try
-		{
-		    s1.shieldToShipTransfer(iTransferAmount);
-		}
-		catch(Exception e)
-		{
-		    System.out.println(e.toString());
-		}
-		
-		int iAfter = s1.getShieldEnergyLevel();
-		
-		assertEquals(iBefore-iTransferAmount, iAfter);
-	}
 	
 	
 }

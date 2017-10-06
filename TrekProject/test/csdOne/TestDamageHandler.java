@@ -2,6 +2,8 @@ package csdOne;
 
 import static org.junit.Assert.*;
 
+import java.util.Random;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,7 +16,9 @@ public class TestDamageHandler {
 	public void initialize()
 	{
 		dh = new DamageHandler();
-		ship = new Ship();
+		
+		FakeRandom random = new FakeRandom();
+		ship = new Ship(random);
 	}
 	
 	@Test
@@ -43,7 +47,6 @@ public class TestDamageHandler {
 	@Test
 	public void testShieldNotDamagedIfNotRaised() {
 		
-		ship.getShields().setShieldDown();
 		ship.getShields().setShieldEnergyLevel(100);
 		
 		dh.takeHit(ship, 20);
@@ -65,7 +68,6 @@ public class TestDamageHandler {
 	@Test
 	public void testComponentDamageIfShieldNotRaised()
 	{
-		ship.getShields().setShieldDown();
 		int numCurrentDamaged = ship.getNumDamagedSystems();
 		
 		dh.takeHit(ship, 10);
@@ -83,6 +85,15 @@ public class TestDamageHandler {
 		dh.takeHit(ship, 20);
 		
 		assertEquals(numCurrentDamaged + 1, ship.getNumDamagedSystems());
+	}
+	
+	private class FakeRandom extends Random
+	{
+		@Override
+		public int nextInt(int bounds)
+		{
+			return 0;
+		}
 	}
 	
 	

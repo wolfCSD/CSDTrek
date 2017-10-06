@@ -2,32 +2,15 @@ package csdOne;
 
 public class Shields extends Subsystem 
 {
-	
-	public int shieldLevel;
 	public boolean isShieldUp;
-	public int shieldEnergyLevel;
-	public int shipEnergyLevel;
-	
+	public int shieldEnergyLevel;	
 	
 	public Shields()
 	{
-		shieldLevel = 10000;
+		shieldEnergyLevel = 10000;
 	    isShieldUp = false;
-	    shipEnergyLevel = 59999;
 	}
 	
-	public int getShieldLevel()
-	{
-		if ( shieldLevel < 0 )
-			return 0;
-		
-		return shieldLevel;
-	}
-	
-	public void setShieldLevel(int sLevel)
-	{
-		shieldLevel = sLevel;
-	}
 	
 	public void setShieldUp()
 	{
@@ -44,17 +27,6 @@ public class Shields extends Subsystem
 		return isShieldUp;
 	}
 	
-
-	public int getShipEnergyLevel()
-	{		
-		return shipEnergyLevel;
-	}
-	
-	public void setShipEnergyLevel(int sLevel)
-	{
-		shipEnergyLevel = sLevel;
-	}
-	
 	public void reduceShields(int damage)
 	{
 		if(shieldEnergyLevel < damage )
@@ -64,6 +36,7 @@ public class Shields extends Subsystem
 		else
 		{
 			shieldEnergyLevel -= damage;
+			
 		}
 	}
 	
@@ -78,26 +51,39 @@ public class Shields extends Subsystem
 		shieldEnergyLevel = sLevel;
 	}
 	
-    // If ship energy level goes to 0, then game over as per Product Owner. Hence the first check
-	public void shipToShieldTransfer(int amount) throws Exception
-	{
-		if ( shipEnergyLevel < 0 )
-			throw new Exception();
-		
-		shipEnergyLevel -= amount;
-		shieldEnergyLevel += amount;
-	}
-	
-	
-	public void shieldToShipTransfer(int amount)
-	{
-		shipEnergyLevel += amount;
-		shieldEnergyLevel -= amount;
-	}
-	
 	@Override
 	public String toString()
 	{
 		return "Shields";
 	}
+	
+	public int takeHitAndReturnRemainingDamage(int damage) 
+	{
+		int remainingDamage = damage;
+		if(isShieldUp())
+		{
+			int curShield = getShieldEnergyLevel();
+			remainingDamage -= curShield;
+			
+			reduceShields(damage);
+			
+		}
+		return remainingDamage;
+	}
+
+
+	public void addShields(int addShieldAmount) {
+		
+		if(shieldEnergyLevel + addShieldAmount < MAX_ENERGY_LEVEL)
+		{
+			shieldEnergyLevel += addShieldAmount;
+		}
+		else
+		{
+			shieldEnergyLevel = MAX_ENERGY_LEVEL;
+		}
+		
+	}
+	protected static final int MAX_ENERGY_LEVEL = 10000;
 }
+
